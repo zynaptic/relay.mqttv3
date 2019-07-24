@@ -30,7 +30,7 @@ import java.util.TreeMap;
  *
  * @author Chris Holgate
  */
-public enum ControlPacketType {
+enum ControlPacketType {
 
   /**
    * Client request to connect to server.
@@ -131,7 +131,7 @@ public enum ControlPacketType {
    *   integer encoding of the header byte, or a null reference if no matching
    *   control packet type is found.
    */
-  public static ControlPacketType getControlPacketType(final Integer integerEncoding) {
+  static ControlPacketType getControlPacketType(final Integer integerEncoding) {
     if (integerEncoding == null) {
       return null;
     }
@@ -157,7 +157,7 @@ public enum ControlPacketType {
    *
    * @return Returns the integer value which represents the control packet type.
    */
-  public int getIntegerEncoding() {
+  int getIntegerEncoding() {
     return integerEncoding;
   }
 
@@ -170,7 +170,7 @@ public enum ControlPacketType {
    *   packets of this type use the lower nibble of the header byte as a set of
    *   header flags and 'false' otherwise.
    */
-  public boolean usesHeaderFlags() {
+  boolean usesHeaderFlags() {
     return useHeaderFlags;
   }
 
@@ -182,7 +182,7 @@ public enum ControlPacketType {
    *   identifiers are mandatory for control packets of this type and 'false'
    *   otherwise.
    */
-  public boolean requiresPacketId() {
+  boolean requiresPacketId() {
     return requirePacketId;
   }
 
@@ -194,7 +194,7 @@ public enum ControlPacketType {
    *   packets of this type can be transmitted by the client and 'false'
    *   otherwise.
    */
-  public boolean isClientInitiated() {
+  boolean isClientInitiated() {
     return clientInitiated;
   }
 
@@ -206,7 +206,7 @@ public enum ControlPacketType {
    *   packets of this type can be transmitted by the server and 'false'
    *   otherwise.
    */
-  public boolean isServerInitiated() {
+  boolean isServerInitiated() {
     return serverInitiated;
   }
 
