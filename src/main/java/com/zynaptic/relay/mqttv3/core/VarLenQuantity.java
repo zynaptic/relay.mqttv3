@@ -30,7 +30,7 @@ import java.nio.ByteBuffer;
  *
  * @author Chris Holgate
  */
-class VarLenQuantity {
+final class VarLenQuantity {
 
   private final int value;
   private final byte[] byteEncoding;

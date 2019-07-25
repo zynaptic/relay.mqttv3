@@ -34,7 +34,7 @@ import com.zynaptic.relay.mqttv3.ReceivedMessage;
  *
  * @author Chris Holgate
  */
-class PublishPacket extends ControlPacket implements ReceivedMessage {
+final class PublishPacket extends ControlPacket implements ReceivedMessage {
 
   private boolean duplicate;
   private final boolean retain;

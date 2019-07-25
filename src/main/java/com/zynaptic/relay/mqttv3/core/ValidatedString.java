@@ -37,7 +37,7 @@ import java.util.regex.Pattern;
  *
  * @author Chris Holgate
  */
-class ValidatedString {
+final class ValidatedString {
 
   private final String string;
   private final byte[] byteEncoding;
