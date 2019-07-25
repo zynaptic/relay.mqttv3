@@ -29,6 +29,7 @@ import com.zynaptic.reaction.Deferrable;
 import com.zynaptic.reaction.Deferred;
 import com.zynaptic.reaction.Logger;
 import com.zynaptic.reaction.Reactor;
+import com.zynaptic.reaction.sockets.SocketClosedException;
 import com.zynaptic.reaction.sockets.SocketHandle;
 import com.zynaptic.reaction.sockets.SocketService;
 
@@ -36,7 +37,7 @@ import com.zynaptic.reaction.sockets.SocketService;
  * Provides a received message queue implementation that polls the underlying
  * transport socket and then performs MQTT control packet parsing on the
  * received data.
- * 
+ *
  * @author Chris Holgate
  */
 final class ReceiveQueue implements Deferrable<ByteBuffer, Void> {
@@ -54,7 +55,7 @@ final class ReceiveQueue implements Deferrable<ByteBuffer, Void> {
 
   /**
    * Provides protected constructor for instantiating receive queues.
-   * 
+   *
    * @param reactor This is the reactor service which is to be used for
    *   asynchronous event management.
    * @param logger This is a logger component which may be used for logging
@@ -77,7 +78,7 @@ final class ReceiveQueue implements Deferrable<ByteBuffer, Void> {
   /**
    * Initiate a packet receive request. Note that only a single packet receive
    * operation may be active at any given time.
-   * 
+   *
    * @return Returns a deferred event object which will have its callbacks
    *   executed on completion. The callback parameter will be the next control
    *   packet to be received. If the socket has been closed an error callback will
@@ -181,7 +182,7 @@ final class ReceiveQueue implements Deferrable<ByteBuffer, Void> {
       if (logger.getLogLevel() == Level.FINER) {
         logger.log(Level.FINER, "RX " + parsedPacket.tracePacket(false, false));
       } else if (logger.getLogLevel() == Level.FINEST) {
-        logger.log(Level.FINEST, "RX " + parsedPacket.tracePacket(false, false));
+        logger.log(Level.FINEST, "RX " + parsedPacket.tracePacket(false, true));
       }
 
       // Hand off the received packet.
