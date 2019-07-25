@@ -51,7 +51,7 @@ import com.zynaptic.stash.StashService;
  *
  * @author Chris Holgate
  */
-class MqttClientConnectionCore implements MqttClientConnection {
+final class MqttClientConnectionCore implements MqttClientConnection {
 
   private final Reactor reactor;
   private final Logger logger;
@@ -70,9 +70,29 @@ class MqttClientConnectionCore implements MqttClientConnection {
   private ReceiveQueue receiveQueue;
   private Iterator<HandshakeInfo> retransmitIterator;
 
-  /*
+  /**
    * Protected constructor used by the client service for creating new client
    * connections.
+   *
+   * @param reactor This is the reactor service which is to be used for
+   *   asynchronous event management.
+   * @param logger This is a logger component which may be used for logging
+   *   connection activity.
+   * @param stashService This is the stash service which is to be used for storing
+   *   persistent state information.
+   * @param socketService This is the socket service which is to be used for
+   *   transport layer socket support.
+   * @param address This is the address of the remote server to which the client
+   *   is connecting.
+   * @param port This is the port on the remote server to which the client is
+   *   connecting.
+   * @param cleanSession This is a boolean flag which when set indicates that a
+   *   clean session should be initiated, with any prior MQTT session state being
+   *   discarded.
+   * @param sslContext This is the SSL context to be used if initiating a TLS
+   *   encrypted connection.
+   * @param maxActivePackets This is the maximum number of packets which may be in
+   *   transit at any given time.
    */
   MqttClientConnectionCore(final Reactor reactor, final Logger logger, final StashService stashService,
       final SocketService socketService, final InetAddress address, final int port, final boolean cleanSession,
@@ -89,9 +109,15 @@ class MqttClientConnectionCore implements MqttClientConnection {
     clientPacketDispatch = new MqttClientPacketDispatch(reactor, logger, this);
   }
 
-  /*
+  /**
    * Protected method used by the client service for initiating client connection
    * setup.
+   *
+   * @param connectionParameters This is the set of connection parameters to be
+   *   used when requesting a connection to the server.
+   * @return Returns a deferred event object which will have its callbacks
+   *   executed on completion. The callback parameter will be a reference to this
+   *   client connection object.
    */
   synchronized Deferred<MqttClientConnection> setup(final ConnectionParameters connectionParameters) {
     this.connectionParameters = connectionParameters;
@@ -167,11 +193,20 @@ class MqttClientConnectionCore implements MqttClientConnection {
     clientPacketDispatch.start(connectionParameters.getKeepAliveTime());
   }
 
+  /**
+   * Initiate a transport layer reconnection using the current MQTT session.
+   */
   void reconnect() {
-    // TODO: Need to clear out deferred callbacks in the send handshake table.
+    logger.log(Level.SEVERE, "Automatic transport layer reconnections are not currently supported");
+    // TODO: Need to add support for automatic reconnection.
   }
 
+  /**
+   * Aborts the MQTT session on any condition that requires the session to be
+   * closed.
+   */
   void abort() {
+    logger.log(Level.SEVERE, "MQTT session aborts are not currently supported");
     // TODO: Need to handle connection aborts.
   }
 
